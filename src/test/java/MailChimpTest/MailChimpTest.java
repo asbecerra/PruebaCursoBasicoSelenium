@@ -34,13 +34,13 @@ public class MailChimpTest {
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
     }
 
-    @Test
+    @Test (priority = 5)
     public void validateTestTitle(){
         String actualTitle = driver.getTitle();
         Assert.assertEquals(actualTitle, "Login | Mailchimp");
     }
 
-    @Test
+    @Test (priority = 4)
     public void logInPageTest(){
         WebElement logInText =  driver.findElement(By.xpath("//*[@class= 'text-align--center !margin-bottom--lv3']"));
         Assert.assertEquals(logInText.getText(), "Log In");
@@ -51,7 +51,7 @@ public class MailChimpTest {
 
     private static final String FORGOT_PUT_PWD_ERROR = "Looks like you forgot your password there, XXXXX@gmail.com.";
 
-    @Test
+    @Test (priority = 3)
     public void loginErrorTest(){
         driver.findElement(By.id("username")).sendKeys("XXXXX@gmail.com");
         driver.findElement(By.xpath("//button[@type = 'submit']")).click();
@@ -64,7 +64,7 @@ public class MailChimpTest {
 
     }
 
-    @Test
+    @Test (priority = 2)
     public void fakeEmailTest(){
         driver.navigate().to("https://login.mailchimp.com/signup/");
         Assert.assertTrue(driver.getCurrentUrl().toString().contains("signup"));
@@ -76,7 +76,7 @@ public class MailChimpTest {
 
         driver.findElement(By.id("email")).sendKeys(email);
     }
-    @Test (dataProvider = "emails", dataProviderClass = DataProviderMailChimp.class)
+    @Test (priority = 1, dataProvider = "emails", dataProviderClass = DataProviderMailChimp.class)
     public void dataProviderEmailTest(String anEmail){
         System.out.println(anEmail);
 
@@ -90,6 +90,5 @@ public class MailChimpTest {
     public void closeDriver(){
         driver.close();
     }
-
-
+    
 }
