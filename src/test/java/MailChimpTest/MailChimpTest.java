@@ -19,12 +19,15 @@ public class MailChimpTest {
     @BeforeTest
     public void setUp() {
         System.setProperty("webdriver.chrome.driver", "driver/chromedriver");
+
         driver = new ChromeDriver();
         driver.get(MAILCHIMP_URL);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(3000, TimeUnit.MILLISECONDS);
+
         WebDriverWait wait  = new WebDriverWait(driver, 2);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button [@id= 'onetrust-accept-btn-handler']")));
+
         WebElement acceptCookiesBtn = driver.findElement(By.xpath("//button [@id= 'onetrust-accept-btn-handler']"));
         acceptCookiesBtn.click();
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
@@ -40,8 +43,24 @@ public class MailChimpTest {
     public void logInPageTest(){
         WebElement logInText =  driver.findElement(By.xpath("//*[@class= 'text-align--center !margin-bottom--lv3']"));
         Assert.assertEquals(logInText.getText(), "Log In");
+
         WebElement needMailAccountText = driver.findElement(By.xpath("//*[@class = 'padding-right--lv1']"));
         Assert.assertEquals(needMailAccountText.getText(), "Need a Mailchimp account?");
+    }
+
+    private static final String FORGOT_PUT_PWD_ERROR = "Looks like you forgot your password there, XXXXX@gmail.com.";
+
+    @Test
+    public void loginErrorTest(){
+        driver.findElement(By.id("username")).sendKeys("XXXXX@gmail.com");
+        driver.findElement(By.xpath("//button[@type = 'submit']")).click();
+
+        WebElement errorPwdBanner = driver.findElement(By.xpath("//*[contains(text(),'Looks like you forgot your password there,')]"));
+        Assert.assertEquals(errorPwdBanner.getText(), FORGOT_PUT_PWD_ERROR);
+
+        WebElement checkBox = driver.findElement(By.id("stay-signed-in"));
+        Assert.assertFalse(checkBox.isSelected());
+
     }
 
     @AfterTest

@@ -1,7 +1,9 @@
 <suite name="Prueba Curso Basico Selenium">
     <test name="Prueba Selenium ">
+
+        <parameter name="username" value="XXXXX@gmail.com"></parameter>
         <classes>
-            <class name="MailChimpTest"></class>
+            <class name="MailChimpTest.MailChimpTest"></class>
         </classes>
     </test>
 </suite>
