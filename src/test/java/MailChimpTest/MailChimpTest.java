@@ -78,8 +78,11 @@ public class MailChimpTest {
     }
     @Test (dataProvider = "emails", dataProviderClass = DataProviderMailChimp.class)
     public void dataProviderEmailTest(String anEmail){
-        driver.navigate().to("https://login.mailchimp.com/signup/");
-        driver.findElement(By.id("email")).sendKeys();
+        System.out.println(anEmail);
+
+        driver.findElement(By.id("username")).sendKeys(anEmail);
+        driver.findElement(By.id("password")).sendKeys("holamundo");
+        driver.findElement(By.xpath("//button[@type ='submit']")).click();
 
     }
 
