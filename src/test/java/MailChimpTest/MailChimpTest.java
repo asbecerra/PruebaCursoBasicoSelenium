@@ -67,16 +67,20 @@ public class MailChimpTest {
     @Test
     public void fakeEmailTest(){
         driver.navigate().to("https://login.mailchimp.com/signup/");
-        System.out.println(driver.getCurrentUrl().toString());
         Assert.assertTrue(driver.getCurrentUrl().toString().contains("signup"));
 
         Faker faker_email = new Faker();
         String email = faker_email.internet().emailAddress();
-        String password = faker_email.internet().password();
 
         System.out.println(email);
 
         driver.findElement(By.id("email")).sendKeys(email);
+    }
+    @Test (dataProvider = "emails", dataProviderClass = DataProviderMailChimp.class)
+    public void dataProviderEmailTest(String anEmail){
+        driver.navigate().to("https://login.mailchimp.com/signup/");
+        driver.findElement(By.id("email")).sendKeys();
+
     }
 
     @AfterTest
