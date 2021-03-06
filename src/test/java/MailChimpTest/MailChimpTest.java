@@ -1,5 +1,6 @@
 package MailChimpTest;
 
+import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -61,6 +62,21 @@ public class MailChimpTest {
         WebElement checkBox = driver.findElement(By.id("stay-signed-in"));
         Assert.assertFalse(checkBox.isSelected());
 
+    }
+
+    @Test
+    public void fakeEmailTest(){
+        driver.navigate().to("https://login.mailchimp.com/signup/");
+        System.out.println(driver.getCurrentUrl().toString());
+        Assert.assertTrue(driver.getCurrentUrl().toString().contains("signup"));
+
+        Faker faker_email = new Faker();
+        String email = faker_email.internet().emailAddress();
+        String password = faker_email.internet().password();
+
+        System.out.println(email);
+
+        driver.findElement(By.id("email")).sendKeys(email);
     }
 
     @AfterTest
